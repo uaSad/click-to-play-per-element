@@ -1,2 +1,1 @@
-click-to-play-per-element
-=========================
+#### click-to-play-per-element
