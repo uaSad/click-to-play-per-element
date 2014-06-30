@@ -1,0 +1,6 @@
+:-moz-handler-clicktoplay .mainBox:hover {
+	background-color: rgb(142,142,142) !important;
+}
+:-moz-handler-clicktoplay .hoverBox:hover {
+	color: rgb(0,0,0) !important;
+}

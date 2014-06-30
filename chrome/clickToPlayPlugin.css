@@ -1,0 +1,10 @@
+@namespace url(http://www.w3.org/1999/xhtml);
+
+embed:-moz-handler-clicktoplay,
+applet:-moz-handler-clicktoplay,
+object:-moz-handler-clicktoplay {
+    display: inline-block;
+    overflow: hidden;
+    opacity: 1 !important;
+    -moz-binding: url('chrome://uasadclicktoplayperelement/content/chrome/clickToPlayPlugin.xml#clickToPlayPlugin') !important;
+}
