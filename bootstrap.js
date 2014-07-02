@@ -287,8 +287,16 @@ let clickToPlayPE = {
 		if (overlay) {
 			overlay.addEventListener('click', clickToPlayPE._overlayClickListener, true);
 			overlay.removeEventListener('click', gPluginHandler._overlayClickListener, true);
-			
+
 			let pluginRect = aPlugin.getBoundingClientRect();
+		    let overflows = (overlay.scrollWidth > pluginRect.width) ||
+		                    (overlay.scrollHeight - 5 > pluginRect.height);
+		    if (overflows) {
+		        let correctOverflows = (overlay.scrollWidth - 5 > pluginRect.width) ||
+		                    (overlay.scrollHeight - 5 > pluginRect.height);
+		        if (!correctOverflows)
+		            overlay.classList.toggle('visible', true);
+		    }
 			let right = pluginRect.right - 2;
 			let top = pluginRect.top + 2;
 			if (right <= 0 || top <= 0) {
@@ -296,7 +304,7 @@ let clickToPlayPE = {
 			}
 		}
 	},
-	
+
 	_overlayClickListener: {
 		handleEvent: function PH_handleOverlayClick(aEvent) {
 			_dbg && console.log(LOG_PREFIX + 'CTPpe._overlayClickListener()');
@@ -319,8 +327,11 @@ let clickToPlayPE = {
 				return;
 			}
 			let overlay = gPluginHandler.getPluginUI(plugin, 'main');
-			if (!overlay.classList.contains('visible'))
+			if (!overlay.classList.contains('visible') && !aEvent.shiftKey) {
+				_dbg && console.log(LOG_PREFIX + 'gPluginHandler._showClickToPlayNotification()');
+				gPluginHandler._showClickToPlayNotification(browser, plugin, true);
 				return;
+			}
 			if (!(aEvent.originalTarget instanceof HTMLAnchorElement) &&
 					(aEvent.originalTarget.getAttribute('anonid') == 'closeIcon') &&
 					aEvent.button == 0 && aEvent.isTrusted) {
@@ -340,7 +351,7 @@ let clickToPlayPE = {
 					objLoadingContent.playPlugin();
 				}
 				else {
-					gPluginHandler._showClickToPlayNotification(browser, plugin);
+					gPluginHandler._showClickToPlayNotification(browser, plugin, true);
 				}
 				aEvent.stopPropagation();
 				aEvent.preventDefault();
