@@ -327,10 +327,18 @@ let clickToPlayPE = {
 				return;
 			}
 			let overlay = gPluginHandler.getPluginUI(plugin, 'main');
-			if (!overlay.classList.contains('visible') && !aEvent.shiftKey) {
-				_dbg && console.log(LOG_PREFIX + 'gPluginHandler._showClickToPlayNotification()');
-				gPluginHandler._showClickToPlayNotification(browser, plugin, true);
-				return;
+			if (!overlay.classList.contains('visible') &&
+					aEvent.button == 0 && aEvent.isTrusted) {
+				_dbg && console.log(LOG_PREFIX + 'overlay no visible');
+				if (overlay) {
+					// prevent double click
+					overlay.style.visibility = 'hidden';
+					window.setTimeout(function(overlay) {
+						overlay.classList.toggle('visible', true);
+						overlay.style.removeProperty('visibility');
+					}.bind(this, overlay), 250);
+					return;
+				}
 			}
 			if (!(aEvent.originalTarget instanceof HTMLAnchorElement) &&
 					(aEvent.originalTarget.getAttribute('anonid') == 'closeIcon') &&
