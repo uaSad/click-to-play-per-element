@@ -237,9 +237,9 @@ let clickToPlayPE = {
 		_dbg && console.log(LOG_PREFIX + 'CTPpe.pluginBindingAttached()');
 
 		let window = clickToPlayPE.getTopChromeWindow(event);
-		window.setTimeout(function() {
+		window.setTimeout(function(event, window) {
 			this.pluginAttached(event, window);
-		}.bind(this), 250);
+		}.bind(this, event, window), 250);
 	},
 	pluginAttached: function(event, window) {
 		_dbg && console.log(LOG_PREFIX + 'CTPpe.pluginAttached()');
